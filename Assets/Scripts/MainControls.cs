@@ -18,9 +18,14 @@ public class MainControls : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        Debug.Log(Input.mousePosition);
+        transform.LookAt(Input.mousePosition);
+
+        // Move the Character on a flat plane
         ZMoveInput = Input.GetAxis("Horizontal");
         XMoveInput = Input.GetAxis("Vertical");
         transform.Translate(new Vector3(1, 0, 0) * Time.deltaTime * XMoveSpeed * XMoveInput);
         transform.Translate(new Vector3(0, 0, 1) * Time.deltaTime * ZMoveSpeed * ZMoveInput);
+
     }
 }
