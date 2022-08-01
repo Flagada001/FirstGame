@@ -36,5 +36,23 @@ public class MainControls : MonoBehaviour
         transform.Translate(new Vector3(1, 0, 0) * Time.deltaTime * xMoveSpeed * xMoveInput);
         transform.Translate(new Vector3(0, 0, 1) * Time.deltaTime * zMoveSpeed * zMoveInput);
 
+        //Left click would thrigger an attack
+        if (Input.GetKeyDown(KeyCode.Mouse0))
+        {
+            PewPew();
+        }
+
+    }
+
+    //Spawn and throw a cude at the target
+    void PewPew()
+    {
+        GameObject cube = GameObject.CreatePrimitive(PrimitiveType.Cube);
+        // cube.AddComponent(typeof(Rigidbody));
+        cube.AddComponent(typeof(CubeProjectile));
+        cube.transform.rotation = transform.rotation;
+        cube.transform.position = transform.position;
+
+
     }
 }
