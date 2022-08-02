@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class CubeProjectile : MonoBehaviour
 {
-    public float damage;
+    private float damage;
     // Start is called before the first frame update
     void Start()
     {
@@ -19,7 +19,6 @@ public class CubeProjectile : MonoBehaviour
 
     void OnCollisionEnter(Collision col)
     {
-        new WaitForSeconds(10);
         if (col.gameObject.name != "Character")
         {
             Destroy(gameObject);
@@ -27,8 +26,13 @@ public class CubeProjectile : MonoBehaviour
         if (col.gameObject.tag == "Enemy")
         {
             EnemyRPGStat other = (EnemyRPGStat)col.gameObject.GetComponent(typeof(EnemyRPGStat));
-            other.TakeDamage(1);
+            other.TakeDamage(damage);
         }
 
+    }
+
+    public void setDamage(float val)
+    {
+        damage = val;
     }
 }

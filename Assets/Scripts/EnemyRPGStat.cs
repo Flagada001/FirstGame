@@ -12,7 +12,7 @@ public class EnemyRPGStat : MonoBehaviour
     {
         healthMax = 2;
         healthCurrent = healthMax;
-        Debug.Log("Max HP : " + healthCurrent);
+        Debug.Log(string.Format("Max HP : {0:f1}", healthCurrent));
     }
 
     // Update is called once per frame
@@ -23,7 +23,7 @@ public class EnemyRPGStat : MonoBehaviour
     public void TakeDamage(float damage)
     {
         healthCurrent -= damage;
-        Debug.Log("HP : " + healthCurrent);
+        Debug.Log(string.Format("HP : {0:f1}", healthCurrent));
         if (healthCurrent <= 0)
         {
             Destroy(gameObject);

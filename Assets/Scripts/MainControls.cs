@@ -13,9 +13,19 @@ public class MainControls : MonoBehaviour
     private float xMoveInput;
     private float zMoveInput;
 
+    public GameObject statTab;
+
+    private CharacterRPGStats characterStat;
+
+    void Start()
+    {
+        characterStat = (CharacterRPGStats)gameObject.GetComponent(typeof(CharacterRPGStats));
+    }
+
     // Update is called once per frame
     void Update()
     {
+
         // Trace a Ray from the mouse position to the first object hit
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         // find the object hit by the ray and asigned it to hit
@@ -39,20 +49,20 @@ public class MainControls : MonoBehaviour
         //Left click would thrigger an attack
         if (Input.GetKeyDown(KeyCode.Mouse0))
         {
-            PewPew();
+            characterStat.PewPew();
         }
 
-    }
-
-    //Spawn and throw a cude at the target
-    void PewPew()
-    {
-        GameObject cube = GameObject.CreatePrimitive(PrimitiveType.Cube);
-        // cube.AddComponent(typeof(Rigidbody));
-        cube.AddComponent(typeof(CubeProjectile));
-        cube.transform.rotation = transform.rotation;
-        cube.transform.position = transform.position;
-
+        if (Input.GetKeyDown(KeyCode.Tab))
+        {
+            if (statTab.activeSelf)
+            {
+                statTab.SetActive(false);
+            }
+            else
+            {
+                statTab.SetActive(true);
+            }
+        }
 
     }
 }
