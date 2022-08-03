@@ -22,10 +22,10 @@ public class DisplayTabs : MonoBehaviour
 
         // character.CharacterRPGStats.
         PlayerStats statToDisplay = (PlayerStats)character.gameObject.GetComponent(typeof(PlayerStats));
-        totalToDisplay.transform.GetComponent<TMPro.TextMeshProUGUI>().text = string.Format("{0:f1}/{1:f1}", statToDisplay.ReturnCurrentTotal(), statToDisplay.MaxTotal);
-        kiToDisplay.transform.GetComponent<TMPro.TextMeshProUGUI>().text = string.Format("{0:f1}/{1:f1}", statToDisplay.ReturnCurrentKi(), statToDisplay.MaxKi);
-        physicalToDisplay.transform.GetComponent<TMPro.TextMeshProUGUI>().text = string.Format("{0:f1}/{1:f1}", statToDisplay.ReturnCurrentPhysical(), statToDisplay.MaxPhysical);
-        speedToDisplay.transform.GetComponent<TMPro.TextMeshProUGUI>().text = string.Format("{0:f1}/{1:f1}", statToDisplay.ReturnCurrentSpeed(), statToDisplay.MaxSpeed);
-        energyToDisplay.transform.GetComponent<TMPro.TextMeshProUGUI>().text = string.Format("{0:f1}/{1:f1}", statToDisplay.ReturnCurrentEnergy(), statToDisplay.MaxEnergy);
+        totalToDisplay.transform.GetComponent<TMPro.TextMeshProUGUI>().text = string.Format("{0:f1}/{1:f1}", statToDisplay.CurrentTotal, statToDisplay.MaxTotal);
+        kiToDisplay.transform.GetComponent<TMPro.TextMeshProUGUI>().text = string.Format("{0:f1}/{1:f1}", statToDisplay.CurrentKi, statToDisplay.MaxKi);
+        physicalToDisplay.transform.GetComponent<TMPro.TextMeshProUGUI>().text = string.Format("{0:f1}/{1:f1}", statToDisplay.CurrentPhysical, statToDisplay.MaxPhysical);
+        speedToDisplay.transform.GetComponent<TMPro.TextMeshProUGUI>().text = string.Format("{0:f1}/{1:f1}", statToDisplay.CurrentSpeed, statToDisplay.MaxSpeed);
+        energyToDisplay.transform.GetComponent<TMPro.TextMeshProUGUI>().text = string.Format("{0:f1}/{1:f1}", statToDisplay.CurrentEnergy, statToDisplay.MaxEnergy);
     }
 }

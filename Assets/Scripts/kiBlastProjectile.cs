@@ -29,7 +29,7 @@ public class kiBlastProjectile : MonoBehaviour
     public void Initialize(PlayerStats tempStat)
     {
         characterStat = tempStat;
-        characterEnergyValue = characterStat.ReturnCurrentEnergy();
+        characterEnergyValue = characterStat.CurrentEnergy;
         impactForce = speed * size * 100;
         speed = characterEnergyValue * 20;
         size = characterEnergyValue / 2f;

@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class MainControls : MonoBehaviour
 {
-    public GameObject statTab;
 
+    public GameObject statTab;
     private PlayerStats characterStat;
 
     void Start()

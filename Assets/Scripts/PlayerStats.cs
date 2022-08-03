@@ -1,62 +1,51 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
-
-//Placehodler for any RPG element and statistic of the main Character
 
 public class PlayerStats : MonoBehaviour
 {
     // Spare hp
     private float maxKi;
-    public float MaxKi
-    {
-        get { return maxKi; }
-    }
+    public float MaxKi { get => maxKi; }
 
-    //melee combat damage
+    // Melee combat damage
     private float maxPhysical;
-    public float MaxPhysical
-    {
-        get { return maxPhysical; }
-    }
+    public float MaxPhysical { get => maxPhysical; }
 
-    //Movement speed, maybe Dodge rating
+    // Movement speed, maybe Dodge rating
     private float maxSpeed;
-    public float MaxSpeed
-    {
-        get { return maxSpeed; }
-    }
+    public float MaxSpeed { get => maxSpeed; }
 
-    //special move damage
+    // Special move damage
     private float maxEnergy;
-    public float MaxEnergy
-    {
-        get { return maxEnergy; }
-    }
+    public float MaxEnergy { get => maxEnergy; }
 
-    //Return Total value of all Max stat
-    public float MaxTotal
-    {
-        get { return maxPhysical + maxSpeed + maxEnergy + maxKi; }
-    }
+    // Return Total value of all Max stat
+    public float MaxTotal { get => maxPhysical + maxSpeed + maxEnergy + maxKi; }
 
-    //All Stats will get weaker as you are damaged
-    public float currentKi;
-    public float currentPhysical;
-    public float currentEnergy;
+
+    // All Stats will get weaker as you are damaged
+    private float currentKi;
+    public float CurrentKi { get => currentKi; }
+
+    private float currentPhysical;
+    public float CurrentPhysical { get => currentPhysical; }
+
+    private float currentEnergy;
+    public float CurrentEnergy { get => currentEnergy; }
+
     private float currentSpeed;
-    public float CurrentSpeed
-    {
-        get { return currentSpeed; }
-    }
+    public float CurrentSpeed { get => currentSpeed; }
+
+    public float CurrentTotal { get => CurrentPhysical + CurrentSpeed + CurrentEnergy + CurrentKi; }
+
 
     // Start is called before the first frame update
     void Start()
     {
         maxKi = 1;
         maxPhysical = 1;
-        maxSpeed = 1;
+        maxSpeed = 2;
         maxEnergy = 1;
         currentKi = maxKi;
         currentPhysical = maxPhysical;
@@ -64,66 +53,33 @@ public class PlayerStats : MonoBehaviour
         currentEnergy = maxEnergy;
     }
 
+
     public void TakeDamage(float damage)
     {
-        //Ki, which is the spare hp will always be lost first without getting weaker
-        if (damage <= currentKi)
+        // CurrentKi Take damage first as SpareHP
+        damage -= currentKi;
+        if (damage < 0)
         {
-            currentKi -= damage;
+            currentKi = -damage;
+            return;
         }
-        else
+        currentKi = 0;
+
+        // Damage would kill the player
+        if (CurrentTotal <= damage)
         {
-            //Spread damage proportionally to all character stats base
-            damage -= currentKi;
-            currentPhysical -= damage / 3; //Todo instead of dividing by 3, device by the ratio of currentPhysical/(currentPhysical+currentSpeed+currentEnergy)
-            currentSpeed -= damage / 3;
-            currentEnergy -= damage / 3;
+            // TODO: fail state
+            currentPhysical = 0;
+            currentSpeed = 0;
+            currentEnergy = 0;
+            return;
         }
-    }
 
-    public float ReturnCurrentTotal()
-    {
-        return currentPhysical + currentSpeed + currentEnergy + currentKi;
-    }
+        // Split damage between all stats by their ratio
+        float currentTotalValue = CurrentTotal;
+        currentPhysical -= (damage * currentPhysical / currentTotalValue);
+        currentSpeed -= (damage * currentSpeed / currentTotalValue);
+        currentEnergy -= (damage * currentEnergy / currentTotalValue);
 
-    public float ReturnMaxTotal()
-    {
-        return maxPhysical + maxSpeed + maxEnergy + maxKi;
-    }
-    public float ReturnCurrentKi()
-    {
-        return currentKi;
-    }
-
-    public float ReturnMaxKi()
-    {
-        return maxKi;
-    }
-    public float ReturnCurrentPhysical()
-    {
-        return currentPhysical;
-    }
-
-    public float ReturnMaxPhysical()
-    {
-        return maxPhysical;
-    }
-    public float ReturnCurrentSpeed()
-    {
-        return currentSpeed;
-    }
-
-    public float ReturnMaxSpeed()
-    {
-        return maxSpeed;
-    }
-    public float ReturnCurrentEnergy()
-    {
-        return currentEnergy;
-    }
-
-    public float ReturnMaxEnergy()
-    {
-        return maxEnergy;
     }
 }
