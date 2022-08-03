@@ -77,11 +77,11 @@ public class kiBlastProjectile : MonoBehaviour
 
     void OnCollisionEnter(Collision col)
     {
+        if (hasColided) { return; }
         if (col.gameObject.name == characterStats.gameObject.name) { return; }
-        Debug.Log(col.gameObject.name + " " + characterStats.gameObject.name);
         hasColided = true;
-        col.gameObject.SendMessage("TakeDamage", damage, SendMessageOptions.DontRequireReceiver);
-
+        Debug.Log(col.gameObject.name + " Took damage :" + damage);
+        col.gameObject.SendMessage("ApplyDamage", damage, SendMessageOptions.DontRequireReceiver);
     }
 
     private void setCharacterEnergyValue(float val)

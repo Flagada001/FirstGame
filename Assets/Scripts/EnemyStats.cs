@@ -44,9 +44,9 @@ public class EnemyStats : CombatStats
     }
 
 
-    public override void TakeDamage(float damage)
+    public override void ApplyDamage(float damage)
     {
-        base.TakeDamage(damage);
+        base.ApplyDamage(damage);
         if (CurrentTotal <= 0)
         {
             IsDead = true;

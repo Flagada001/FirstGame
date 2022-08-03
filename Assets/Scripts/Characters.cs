@@ -52,7 +52,7 @@ namespace Characters
 
         }
 
-        public virtual void TakeDamage(float damage)
+        public virtual void ApplyDamage(float damage)
         {
             // CurrentKi Take damage first as SpareHP
             damage -= currentKi;
@@ -74,10 +74,45 @@ namespace Characters
             }
 
             // Split damage between all stats by their ratio
-            float currentTotalValue = CurrentTotal;
-            currentPhysical -= (damage * currentPhysical / currentTotalValue);
-            currentSpeed -= (damage * currentSpeed / currentTotalValue);
-            currentEnergy -= (damage * currentEnergy / currentTotalValue);
+            float initialCurrentTotalValue = CurrentTotal;
+            currentPhysical -= (damage * currentPhysical / initialCurrentTotalValue);
+            currentSpeed -= (damage * currentSpeed / initialCurrentTotalValue);
+            currentEnergy -= (damage * currentEnergy / initialCurrentTotalValue);
+        }
+        public virtual void ApplyHealing(float healing)
+        {
+            if (CurrentTotal >= MaxTotal) { return; }
+
+            float missingPhysical = MaxPhysical - CurrentPhysical;
+            float missingEnergy = MaxEnergy - CurrentEnergy;
+            float missingSpeed = MaxSpeed - CurrentSpeed;
+            float missingTotalExcludingKi = missingPhysical + missingEnergy + missingSpeed;
+
+            float remainingHealing = healing - missingTotalExcludingKi;
+            if (remainingHealing >= 0)
+            {
+                healing = missingTotalExcludingKi;
+            }
+            else
+            {
+                remainingHealing = 0;
+            }
+
+            if (missingTotalExcludingKi > 0)
+            {
+                CurrentPhysical += healing * missingPhysical / missingTotalExcludingKi;
+                CurrentSpeed += healing * missingSpeed / missingTotalExcludingKi;
+                CurrentEnergy += healing * missingEnergy / missingTotalExcludingKi;
+            }
+
+            if (CurrentKi + remainingHealing > MaxKi)
+            {
+                CurrentKi = MaxKi;
+            }
+            else
+            {
+                CurrentKi += remainingHealing;
+            }
         }
     }
 }

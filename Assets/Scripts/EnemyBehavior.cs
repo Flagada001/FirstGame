@@ -50,7 +50,6 @@ public class EnemyBehavior : MonoBehaviour
             float distanceToTarget = Vector3.Distance(transform.position, player.transform.position);
             if (distanceToTarget > 5 && distanceToTarget < 10)
             {
-                Debug.Log(Vector3.Distance(transform.position, player.transform.position));
                 kiBlast = Instantiate(KiBlastPrefab, transform.position, transform.rotation);
                 kiBlast.gameObject.GetComponent<kiBlastProjectile>().Initialize(characterStats);
                 kiBlast.gameObject.GetComponent<kiBlastProjectile>().launchProjectile(player.transform.position);
