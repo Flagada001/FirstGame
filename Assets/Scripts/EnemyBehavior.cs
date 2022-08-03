@@ -14,7 +14,7 @@ public class EnemyBehavior : MonoBehaviour
     private float attackActionCooldown = 2;
     private bool readyToAttack;
 
-    private EnemyRPGStat characterStats;
+    private EnemyStats characterStats;
     private GameObject kiBlast;
     public GameObject KiBlastPrefab;
 
@@ -22,7 +22,7 @@ public class EnemyBehavior : MonoBehaviour
     void Start()
     {
         player = GameObject.Find("Character");
-        characterStats = gameObject.GetComponent<EnemyRPGStat>();
+        characterStats = gameObject.GetComponent<EnemyStats>();
     }
 
     // Update is called once per frame

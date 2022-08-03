@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.AI;
 using Characters;
 
-public class EnemyRPGStat : CombatStats
+public class EnemyStats : CombatStats
 {
     private bool isDead = false;
     public bool IsDead { get => isDead; set => isDead = value; }
