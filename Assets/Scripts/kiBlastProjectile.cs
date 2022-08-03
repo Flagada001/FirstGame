@@ -5,7 +5,7 @@ using UnityEngine.AI;
 
 public class kiBlastProjectile : MonoBehaviour
 {
-    private float characterEnergyValue;
+    private float power;
 
     private float damage;
     private float speed;
@@ -29,11 +29,11 @@ public class kiBlastProjectile : MonoBehaviour
     public void Initialize(PlayerStats tempStat)
     {
         characterStat = tempStat;
-        characterEnergyValue = characterStat.CurrentEnergy;
+        power = characterStat.CurrentEnergy;
         impactForce = speed * size * 100;
-        speed = characterEnergyValue * 20;
-        size = characterEnergyValue / 2f;
-        damage = characterEnergyValue;
+        speed = power * 20;
+        size = power / 2f;
+        damage = power;
         transform.localScale = new Vector3(size, size, size);
     }
 
@@ -52,17 +52,17 @@ public class kiBlastProjectile : MonoBehaviour
             chargeTimer += Time.deltaTime;
 
 
-            if (characterEnergyValue * (chargeTimer + 1) / 2f > 1)
+            if (power * (chargeTimer + 1) / 2f > 1)
             {
                 size = 1;
             }
             else
             {
-                size = characterEnergyValue * (chargeTimer + 1) / 2f;
+                size = power * (chargeTimer + 1) / 2f;
             }
 
-            speed = characterEnergyValue * (chargeTimer + 1) * 20;
-            damage = characterEnergyValue * (chargeTimer + 1);
+            speed = power * (chargeTimer + 1) * 20;
+            damage = power * (chargeTimer + 1);
             transform.localScale = new Vector3(size, size, size);
         }
         if (hasColided)
@@ -83,15 +83,14 @@ public class kiBlastProjectile : MonoBehaviour
         }
         if (col.gameObject.tag == "Enemy")
         {
-            EnemyRPGStat other = (EnemyRPGStat)col.gameObject.GetComponent(typeof(EnemyRPGStat));
-            other.TakeDamage(damage);
+            // col.gameObject.GetComponent<EnemyRPGStat>().TakeDamage(damage, col.collider.tag == "WeakPoint");
+            col.gameObject.SendMessage("TakeDamage", damage);
         }
-
     }
 
     private void setCharacterEnergyValue(float val)
     {
-        characterEnergyValue = val;
+        power = val;
     }
 
     public void launchProjectile()

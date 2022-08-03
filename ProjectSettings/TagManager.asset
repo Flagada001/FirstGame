@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Wall
   - Enemy
+  - WeakPoint
   layers:
   - Default
   - TransparentFX

@@ -14,32 +14,24 @@ public class EnemyBehavior : MonoBehaviour
     void Start()
     {
         character = GameObject.Find("Character");
+
     }
 
     // Update is called once per frame
     void Update()
     {
         NavMeshAgent agent = GetComponent<NavMeshAgent>();
+        if (gameObject.GetComponent<EnemyRPGStat>().IsDead) { return; }
 
         nearTarget = Vector3.Distance(transform.position, character.transform.position) > maxDistanceToTarget;
 
-        if (agent.enabled) //Would be disabled if dead
+        if (nearTarget)
         {
-            if (nearTarget)
-            {
-                agent.destination = character.transform.position;
-            }
-            else
-            {
-                agent.destination = transform.position;
-            }
+            agent.destination = character.transform.position;
         }
-
-        // spawnTimer += Time.deltaTime;
-        // if (!hasSpawned && spawnTimer >= 3)
-        // {
-        //     GameObject instance = Instantiate(gameObject, transform.position, transform.rotation);
-        //     hasSpawned = true;
-        // }
+        else
+        {
+            agent.destination = transform.position;
+        }
     }
 }
