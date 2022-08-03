@@ -45,7 +45,11 @@ public class CharacterRPGStats : MonoBehaviour
     public float currentKi;
     public float currentPhysical;
     public float currentEnergy;
-    public float currentSpeed;
+    private float currentSpeed;
+    public float CurrentSpeed
+    {
+        get { return currentSpeed; }
+    }
 
     // Start is called before the first frame update
     void Start()
