@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using Characters;
 
 public class kiBlastProjectile : MonoBehaviour
 {
@@ -18,18 +19,17 @@ public class kiBlastProjectile : MonoBehaviour
     static float maxDespawnTimer = 0.01f;
     private float chargeTimer;
 
-    private RaycastHit targetAimedAt;
-    private PlayerStats characterStat;
+    private CombatStats characterStats;
 
     // Start is called before the first frame update
     void Start()
     {
     }
 
-    public void Initialize(PlayerStats tempStat)
+    public void Initialize(CombatStats tempStat)
     {
-        characterStat = tempStat;
-        power = characterStat.CurrentEnergy;
+        characterStats = tempStat;
+        power = characterStats.CurrentEnergy;
         impactForce = speed * size * 100;
         speed = power * 20;
         size = power / 2f;
@@ -46,8 +46,8 @@ public class kiBlastProjectile : MonoBehaviour
         }
         else
         {
-            transform.rotation = characterStat.gameObject.transform.rotation;
-            transform.position = characterStat.gameObject.transform.position;
+            transform.rotation = characterStats.gameObject.transform.rotation;
+            transform.position = characterStats.gameObject.transform.position;
             transform.Translate(new Vector3(0.2f, 0, 0.7f));
             chargeTimer += Time.deltaTime;
 
@@ -77,15 +77,11 @@ public class kiBlastProjectile : MonoBehaviour
 
     void OnCollisionEnter(Collision col)
     {
-        if (col.gameObject.name != "Character")
-        {
-            hasColided = true;
-        }
-        if (col.gameObject.tag == "Enemy")
-        {
-            // col.gameObject.GetComponent<EnemyRPGStat>().TakeDamage(damage, col.collider.tag == "WeakPoint");
-            col.gameObject.SendMessage("TakeDamage", damage);
-        }
+        if (col.gameObject.name == characterStats.gameObject.name) { return; }
+        Debug.Log(col.gameObject.name + " " + characterStats.gameObject.name);
+        hasColided = true;
+        col.gameObject.SendMessage("TakeDamage", damage, SendMessageOptions.DontRequireReceiver);
+
     }
 
     private void setCharacterEnergyValue(float val)
@@ -93,28 +89,9 @@ public class kiBlastProjectile : MonoBehaviour
         power = val;
     }
 
-    public void launchProjectile()
+    public void launchProjectile(Vector3 target)
     {
-        float yAimOffset = 0;
-
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        RaycastHit hit;
-        Physics.Raycast(ray, out hit);
-        // myNavHit.position.y get the floor Height the character is standing on
-        NavMeshHit myNavHit;
-        if (NavMesh.SamplePosition(transform.position, out myNavHit, 10, -1))
-        {
-            if (hit.transform.gameObject.tag == "Enemy")
-            {
-                yAimOffset = 0;
-            }
-            else
-            {
-                yAimOffset = transform.position.y - myNavHit.position.y;
-            }
-        }
-
-        transform.rotation = Quaternion.LookRotation(hit.point - transform.position + new Vector3(0, yAimOffset, 0));
+        transform.rotation = Quaternion.LookRotation(target - transform.position);
         hasLaunched = true;
     }
 }

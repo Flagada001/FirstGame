@@ -17,9 +17,9 @@ public class EnemyRPGStat : CombatStats
     void Start()
     {
         MaxKi = 0;
-        MaxPhysical = 1;
+        MaxPhysical = 0;
         MaxSpeed = 1;
-        MaxEnergy = 0;
+        MaxEnergy = 1;
         CurrentKi = MaxKi;
         CurrentPhysical = MaxPhysical;
         CurrentSpeed = MaxSpeed;
@@ -30,7 +30,7 @@ public class EnemyRPGStat : CombatStats
     // Update is called once per frame
     void Update()
     {
-        gameObject.GetComponent<NavMeshAgent>().speed = CurrentSpeed * 2 + 1;
+        gameObject.GetComponent<NavMeshAgent>().speed = CurrentSpeed * 4 + 1;
 
         //Allow game object to fall dead after death for maxDeadTimer second
         if (IsDead)
@@ -51,6 +51,7 @@ public class EnemyRPGStat : CombatStats
         {
             IsDead = true;
             gameObject.GetComponent<NavMeshAgent>().enabled = false;
+            gameObject.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
         }
     }
 }
