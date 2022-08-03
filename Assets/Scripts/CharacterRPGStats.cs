@@ -35,6 +35,7 @@ public class CharacterRPGStats : MonoBehaviour
         get { return maxEnergy; }
     }
 
+    //Return Total value of all Max stat
     public float MaxTotal
     {
         get { return maxPhysical + maxSpeed + maxEnergy + maxKi; }
@@ -45,11 +46,6 @@ public class CharacterRPGStats : MonoBehaviour
     public float currentPhysical;
     public float currentEnergy;
     public float currentSpeed;
-
-    public float CharacterHeight
-    {
-        get { return gameObject.GetComponent<Collider>().bounds.size.y; }
-    }
 
     // Start is called before the first frame update
     void Start()

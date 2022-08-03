@@ -5,7 +5,7 @@ using UnityEngine.AI;
 
 public class EnemyBehavior : MonoBehaviour
 {
-    public GameObject character;
+    private GameObject character;
     private NavMeshAgent agent;
     private bool nearTarget = false;
     static float maxDistanceToTarget = 2;
@@ -13,7 +13,7 @@ public class EnemyBehavior : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
+        character = GameObject.Find("Character");
     }
 
     // Update is called once per frame

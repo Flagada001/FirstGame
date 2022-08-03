@@ -9,7 +9,7 @@ public class MainControls : MonoBehaviour
     public float zMoveSpeed = 10;
     public float rotateSpeed = 10;
 
-    public GameObject kiBlastPreFab;
+
 
     //Variable that will inclue the keyboard value
     private float xMoveInput;
@@ -19,6 +19,7 @@ public class MainControls : MonoBehaviour
 
     private CharacterRPGStats characterStat;
     private GameObject kiBlast;
+    public GameObject kiBlastPrefab;
 
     void Start()
     {
@@ -45,7 +46,7 @@ public class MainControls : MonoBehaviour
         //Right click would trigger a kiBlast
         if (Input.GetKeyDown(KeyCode.Mouse1))
         {
-            kiBlast = Instantiate(kiBlastPreFab, transform.position, transform.rotation);
+            kiBlast = Instantiate(kiBlastPrefab, transform.position, transform.rotation);
             kiBlast.gameObject.GetComponent<kiBlastProjectile>().Initialize(characterStat);
         }
         if (Input.GetKeyUp(KeyCode.Mouse1))

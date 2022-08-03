@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class kiBlastProjectile : MonoBehaviour
 {
@@ -15,6 +16,7 @@ public class kiBlastProjectile : MonoBehaviour
     private bool hasColided = false;
     private float despawnTimer;
     static float maxDespawnTimer = 0.01f;
+    private float chargeTimer;
 
     private RaycastHit targetAimedAt;
     private CharacterRPGStats characterStat;
@@ -47,8 +49,22 @@ public class kiBlastProjectile : MonoBehaviour
             transform.rotation = characterStat.gameObject.transform.rotation;
             transform.position = characterStat.gameObject.transform.position;
             transform.Translate(new Vector3(0.2f, 0, 0.7f));
-        }
+            chargeTimer += Time.deltaTime;
 
+
+            if (characterEnergyValue * (chargeTimer + 1) / 2f > 1)
+            {
+                size = 1;
+            }
+            else
+            {
+                size = characterEnergyValue * (chargeTimer + 1) / 2f;
+            }
+
+            speed = characterEnergyValue * (chargeTimer + 1) * 20;
+            damage = characterEnergyValue * (chargeTimer + 1);
+            transform.localScale = new Vector3(size, size, size);
+        }
         if (hasColided)
         {
             despawnTimer += Time.deltaTime;
@@ -80,10 +96,26 @@ public class kiBlastProjectile : MonoBehaviour
 
     public void launchProjectile()
     {
+        float yAimOffset = 0;
+
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
         Physics.Raycast(ray, out hit);
-        transform.rotation = Quaternion.LookRotation(hit.point - transform.position);
+        // myNavHit.position.y get the floor Height the character is standing on
+        NavMeshHit myNavHit;
+        if (NavMesh.SamplePosition(transform.position, out myNavHit, 10, -1))
+        {
+            if (hit.transform.gameObject.tag == "Enemy")
+            {
+                yAimOffset = 0;
+            }
+            else
+            {
+                yAimOffset = transform.position.y - myNavHit.position.y;
+            }
+        }
+
+        transform.rotation = Quaternion.LookRotation(hit.point - transform.position + new Vector3(0, yAimOffset, 0));
         hasLaunched = true;
     }
 }
