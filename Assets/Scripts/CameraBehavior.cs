@@ -13,7 +13,7 @@ public class CameraBehavior : MonoBehaviour
         transform.position = character.transform.position;
 
         //Can move the camera if Right mouse is pressed
-        if (Input.GetAxis("Fire2") > 0)
+        if (Input.GetAxis("Fire3") > 0)
         {
             //Move Camera Up and down
             transform.Rotate(new Vector3(1, 0, 0) * Input.GetAxis("Mouse Y"));

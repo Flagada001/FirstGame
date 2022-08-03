@@ -9,6 +9,8 @@ public class MainControls : MonoBehaviour
     public float zMoveSpeed = 10;
     public float rotateSpeed = 10;
 
+    public GameObject kiBlastPreFab;
+
     //Variable that will inclue the keyboard value
     private float xMoveInput;
     private float zMoveInput;
@@ -16,29 +18,23 @@ public class MainControls : MonoBehaviour
     public GameObject statTab;
 
     private CharacterRPGStats characterStat;
+    private GameObject kiBlast;
 
     void Start()
     {
         characterStat = (CharacterRPGStats)gameObject.GetComponent(typeof(CharacterRPGStats));
     }
-
     // Update is called once per frame
     void Update()
     {
-
         // Trace a Ray from the mouse position to the first object hit
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        // find the object hit by the ray and asigned it to hit
         RaycastHit hit;
-        Physics.Raycast(ray, out hit);
+        Physics.Raycast(ray, out hit); // find the object hit by the ray
         Vector3 targetDirection = hit.point - transform.position;
-        //Change rotation speed from ByFrame to PerSecond
         float singleStep = rotateSpeed * Time.deltaTime;
-        //
         Vector3 newDirection = Vector3.RotateTowards(transform.forward, targetDirection, singleStep, 0.0f);
-        //remove any Y rotation
-        newDirection -= new Vector3(0, newDirection.y, 0);
-        transform.rotation = Quaternion.LookRotation(newDirection);
+        transform.rotation = Quaternion.LookRotation(newDirection - new Vector3(0, newDirection.y, 0));
 
         // Move the Character on a flat plane
         xMoveInput = Input.GetAxis("Horizontal");
@@ -46,12 +42,19 @@ public class MainControls : MonoBehaviour
         transform.Translate(new Vector3(1, 0, 0) * Time.deltaTime * xMoveSpeed * xMoveInput);
         transform.Translate(new Vector3(0, 0, 1) * Time.deltaTime * zMoveSpeed * zMoveInput);
 
-        //Left click would thrigger an attack
-        if (Input.GetKeyDown(KeyCode.Mouse0))
+        //Right click would trigger a kiBlast
+        if (Input.GetKeyDown(KeyCode.Mouse1))
         {
-            characterStat.PewPew();
+            kiBlast = Instantiate(kiBlastPreFab, transform.position, transform.rotation);
+            kiBlast.gameObject.GetComponent<kiBlastProjectile>().Initialize(characterStat);
+        }
+        if (Input.GetKeyUp(KeyCode.Mouse1))
+        {
+            kiBlast.gameObject.GetComponent<kiBlastProjectile>().launchProjectile();
         }
 
+
+        //Open the stats interface
         if (Input.GetKeyDown(KeyCode.Tab))
         {
             if (statTab.activeSelf)
@@ -63,6 +66,7 @@ public class MainControls : MonoBehaviour
                 statTab.SetActive(true);
             }
         }
+
 
     }
 }

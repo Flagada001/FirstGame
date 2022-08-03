@@ -7,15 +7,49 @@ using UnityEngine.UI;
 
 public class CharacterRPGStats : MonoBehaviour
 {
+    // Spare hp
+    private float maxKi;
+    public float MaxKi
+    {
+        get { return maxKi; }
+    }
 
-    public float maxKi;
+    //melee combat damage
+    private float maxPhysical;
+    public float MaxPhysical
+    {
+        get { return maxPhysical; }
+    }
+
+    //Movement speed, maybe Dodge rating
+    private float maxSpeed;
+    public float MaxSpeed
+    {
+        get { return maxSpeed; }
+    }
+
+    //special move damage
+    private float maxEnergy;
+    public float MaxEnergy
+    {
+        get { return maxEnergy; }
+    }
+
+    public float MaxTotal
+    {
+        get { return maxPhysical + maxSpeed + maxEnergy + maxKi; }
+    }
+
+    //All Stats will get weaker as you are damaged
     public float currentKi;
-    public float maxPhysical;
     public float currentPhysical;
-    public float maxSpeed;
-    public float currentSpeed;
-    public float maxEnergy;
     public float currentEnergy;
+    public float currentSpeed;
+
+    public float CharacterHeight
+    {
+        get { return gameObject.GetComponent<Collider>().bounds.size.y; }
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -30,21 +64,18 @@ public class CharacterRPGStats : MonoBehaviour
         currentEnergy = maxEnergy;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-    }
-
     public void TakeDamage(float damage)
     {
+        //Ki, which is the spare hp will always be lost first without getting weaker
         if (damage <= currentKi)
         {
             currentKi -= damage;
         }
         else
         {
+            //Spread damage proportionally to all character stats base
             damage -= currentKi;
-            currentPhysical -= damage / 3;
+            currentPhysical -= damage / 3; //Todo instead of dividing by 3, device by the ratio of currentPhysical/(currentPhysical+currentSpeed+currentEnergy)
             currentSpeed -= damage / 3;
             currentEnergy -= damage / 3;
         }
@@ -54,20 +85,45 @@ public class CharacterRPGStats : MonoBehaviour
     {
         return currentPhysical + currentSpeed + currentEnergy + currentKi;
     }
+
     public float ReturnMaxTotal()
     {
         return maxPhysical + maxSpeed + maxEnergy + maxKi;
     }
-
-    //Spawn and throw a cude at the target
-    public void PewPew()
+    public float ReturnCurrentKi()
     {
-        GameObject cube = GameObject.CreatePrimitive(PrimitiveType.Cube);
-        // cube.AddComponent(typeof(Rigidbody));
-        cube.AddComponent(typeof(CubeProjectile));
-        cube.transform.rotation = transform.rotation;
-        cube.transform.position = transform.position;
-        CubeProjectile other = (CubeProjectile)cube.gameObject.GetComponent(typeof(CubeProjectile));
-        other.setDamage(currentEnergy);
+        return currentKi;
+    }
+
+    public float ReturnMaxKi()
+    {
+        return maxKi;
+    }
+    public float ReturnCurrentPhysical()
+    {
+        return currentPhysical;
+    }
+
+    public float ReturnMaxPhysical()
+    {
+        return maxPhysical;
+    }
+    public float ReturnCurrentSpeed()
+    {
+        return currentSpeed;
+    }
+
+    public float ReturnMaxSpeed()
+    {
+        return maxSpeed;
+    }
+    public float ReturnCurrentEnergy()
+    {
+        return currentEnergy;
+    }
+
+    public float ReturnMaxEnergy()
+    {
+        return maxEnergy;
     }
 }
