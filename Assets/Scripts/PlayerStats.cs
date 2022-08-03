@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 //Placehodler for any RPG element and statistic of the main Character
 
-public class CharacterRPGStats : MonoBehaviour
+public class PlayerStats : MonoBehaviour
 {
     // Spare hp
     private float maxKi;

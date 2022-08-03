@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class PlayerActionManager : MonoBehaviour
 {
-    private CharacterRPGStats characterStat;
+    private PlayerStats characterStat;
     private GameObject kiBlast;
     public GameObject KiBlastPrefab;
     // Start is called before the first frame update
     void Start()
     {
-        characterStat = gameObject.GetComponent<CharacterRPGStats>();
+        characterStat = gameObject.GetComponent<PlayerStats>();
     }
 
     // Update is called once per frame

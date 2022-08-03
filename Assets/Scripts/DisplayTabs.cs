@@ -21,7 +21,7 @@ public class DisplayTabs : MonoBehaviour
     {
 
         // character.CharacterRPGStats.
-        CharacterRPGStats statToDisplay = (CharacterRPGStats)character.gameObject.GetComponent(typeof(CharacterRPGStats));
+        PlayerStats statToDisplay = (PlayerStats)character.gameObject.GetComponent(typeof(PlayerStats));
         totalToDisplay.transform.GetComponent<TMPro.TextMeshProUGUI>().text = string.Format("{0:f1}/{1:f1}", statToDisplay.ReturnCurrentTotal(), statToDisplay.MaxTotal);
         kiToDisplay.transform.GetComponent<TMPro.TextMeshProUGUI>().text = string.Format("{0:f1}/{1:f1}", statToDisplay.ReturnCurrentKi(), statToDisplay.MaxKi);
         physicalToDisplay.transform.GetComponent<TMPro.TextMeshProUGUI>().text = string.Format("{0:f1}/{1:f1}", statToDisplay.ReturnCurrentPhysical(), statToDisplay.MaxPhysical);

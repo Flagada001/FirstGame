@@ -19,14 +19,14 @@ public class kiBlastProjectile : MonoBehaviour
     private float chargeTimer;
 
     private RaycastHit targetAimedAt;
-    private CharacterRPGStats characterStat;
+    private PlayerStats characterStat;
 
     // Start is called before the first frame update
     void Start()
     {
     }
 
-    public void Initialize(CharacterRPGStats tempStat)
+    public void Initialize(PlayerStats tempStat)
     {
         characterStat = tempStat;
         characterEnergyValue = characterStat.ReturnCurrentEnergy();

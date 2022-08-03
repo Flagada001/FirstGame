@@ -8,12 +8,12 @@ public class PlayerMovementController : MonoBehaviour
     public float MoveSpeed { get { return characterStat.CurrentSpeed + 10; } }
     public float RotateSpeed { get { return characterStat.CurrentSpeed + 10; } }
 
-    private CharacterRPGStats characterStat;
+    private PlayerStats characterStat;
 
     // Start is called before the first frame update
     void Start()
     {
-        characterStat = gameObject.GetComponent<CharacterRPGStats>();
+        characterStat = gameObject.GetComponent<PlayerStats>();
     }
 
     // Update is called once per frame

@@ -4,14 +4,14 @@ using UnityEngine;
 
 public class PlayerActionController : MonoBehaviour
 {
-    private CharacterRPGStats characterStat;
+    private PlayerStats characterStat;
     private PlayerActionManager actionManager;
 
 
     // Start is called before the first frame update
     void Start()
     {
-        characterStat = gameObject.GetComponent<CharacterRPGStats>();
+        characterStat = gameObject.GetComponent<PlayerStats>();
         actionManager = gameObject.GetComponent<PlayerActionManager>();
     }
 

@@ -6,11 +6,11 @@ public class MainControls : MonoBehaviour
 {
     public GameObject statTab;
 
-    private CharacterRPGStats characterStat;
+    private PlayerStats characterStat;
 
     void Start()
     {
-        characterStat = (CharacterRPGStats)gameObject.GetComponent(typeof(CharacterRPGStats));
+        characterStat = (PlayerStats)gameObject.GetComponent(typeof(PlayerStats));
     }
 
     // Update is called once per frame
