@@ -79,6 +79,7 @@ namespace Characters
             currentSpeed -= (damage * currentSpeed / initialCurrentTotalValue);
             currentEnergy -= (damage * currentEnergy / initialCurrentTotalValue);
         }
+
         public virtual void ApplyHealing(float healing)
         {
             if (CurrentTotal >= MaxTotal) { return; }
@@ -113,6 +114,11 @@ namespace Characters
             {
                 CurrentKi += remainingHealing;
             }
+        }
+
+        public void RebalanceStats()
+        {
+            // TODO : Return all 3 stats to the same ratio over time
         }
     }
 }

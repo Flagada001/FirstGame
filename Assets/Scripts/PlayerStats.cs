@@ -19,6 +19,7 @@ public class PlayerStats : CombatStats
         CurrentSpeed = MaxSpeed;
         CurrentEnergy = MaxEnergy;
     }
+
     void Update()
     {
         countSecond += Time.deltaTime;
@@ -34,8 +35,7 @@ public class PlayerStats : CombatStats
 
     private void GainMoreKi(float gains)
     {
-        MaxKi += gains;
-        CurrentKi += gains;
+        MaxKi += gains / 100;
+        CurrentKi += gains / 100;
     }
-
 }

@@ -20,6 +20,13 @@ public class PlayerActionManager : MonoBehaviour
 
     }
 
+    public void SpeedCharge()
+    {
+        // TODO : When pressing a key would raise speed value higher, more then its max?, reduce other stats in exchange?
+        // TODO : Healing should ignore stats above their max
+        // TODO : A method to balance stats ratio, transfering Ki First then other 2 stats in equal ratio
+    }
+
     public void KiBlastPressed()
     {
         kiBlast = Instantiate(KiBlastPrefab, transform.position, transform.rotation);
