@@ -7,7 +7,7 @@ public class CameraBehavior : MonoBehaviour
     public GameObject character;
 
     // Update is called once per frame
-    void Update()
+    void LateUpdate()
     {
         // Camera Follow the player
         transform.position = character.transform.position;
