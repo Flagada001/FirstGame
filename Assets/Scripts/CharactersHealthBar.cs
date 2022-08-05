@@ -59,22 +59,17 @@ public class CharactersHealthBar : MonoBehaviour
 
 
         float pos = -childBackfillBar.rect.width / 2;
-        Debug.Log(gameObject.name + ", " + pos);
         childPhysicalBar.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, stats.CurrentPhysical / stats.MaxTotal * (childBackfillBar.rect.width));
         childPhysicalBar.anchoredPosition = new Vector3(pos + childPhysicalBar.rect.width / 2, 0, 0);
         pos += childPhysicalBar.rect.width;
-        Debug.Log(gameObject.name + ", " + pos);
         childSpeedBar.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, stats.CurrentSpeed / stats.MaxTotal * (childBackfillBar.rect.width));
         childSpeedBar.anchoredPosition = new Vector3(pos + childSpeedBar.rect.width / 2, 0, 0);
         pos += childSpeedBar.rect.width;
-        Debug.Log(gameObject.name + ", " + pos);
         childEnergyBar.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, stats.CurrentEnergy / stats.MaxTotal * (childBackfillBar.rect.width));
         childEnergyBar.anchoredPosition = new Vector3(pos + childEnergyBar.rect.width / 2, 0, 0);
         pos += childEnergyBar.rect.width;
-        Debug.Log(gameObject.name + ", " + pos);
         childKiBar.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, stats.CurrentKi / stats.MaxTotal * (childBackfillBar.rect.width));
         childKiBar.anchoredPosition = new Vector3(pos + childKiBar.rect.width / 2, 0, 0);
         pos += childKiBar.rect.width;
-        Debug.Log(gameObject.name + ", " + pos);
     }
 }
