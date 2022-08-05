@@ -41,17 +41,6 @@ namespace Characters
 
         public float CurrentTotal { get => CurrentPhysical + CurrentSpeed + CurrentEnergy + CurrentKi; }
 
-        // Start is called before the first frame update
-        void Start()
-        {
-        }
-
-        // Update is called once per frame
-        void Update()
-        {
-
-        }
-
         public virtual void ApplyDamage(float damage)
         {
             // CurrentKi Take damage first as SpareHP
