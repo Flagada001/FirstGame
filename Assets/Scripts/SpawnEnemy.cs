@@ -5,12 +5,14 @@ using UnityEngine;
 public class SpawnEnemy : MonoBehaviour
 {
     public GameObject EnemyPrefab;
+    public GameObject SpawnPoint;
     private GameObject enemyObject;
-    private Vector3 spawnPoint = new Vector3(54, 4, 40);
+    private Vector3 spawnPoint;
     private float countSecondToSpawn;
     // Start is called before the first frame update
     void Start()
     {
+        spawnPoint = SpawnPoint.transform.position;
         enemyObject = Instantiate(EnemyPrefab, spawnPoint, Quaternion.identity);
     }
 
