@@ -12,7 +12,7 @@ public class PlayerStats : CombatStats
     {
         MaxKi = 1;
         MaxPhysical = 1;
-        MaxSpeed = 5;
+        MaxSpeed = 1;
         MaxEnergy = 1;
         CurrentKi = MaxKi;
         CurrentPhysical = MaxPhysical;
@@ -33,9 +33,31 @@ public class PlayerStats : CombatStats
         GainMoreKi(CurrentTotal - initalCurrentTotal);
     }
 
+    // Ki increase by healing at a rate of 1 new Ki for 100 ki Healed
     private void GainMoreKi(float gains)
     {
         MaxKi += gains / 100;
         CurrentKi += gains / 100;
+    }
+
+    // Energy Increased by overcharging
+    private void GainMoreEnergy(float gains)
+    {
+        MaxEnergy += gains;
+        CurrentEnergy += gains;
+    }
+
+    // Physical Increased by overcharging
+    private void GainMorePhysical(float gains)
+    {
+        MaxPhysical += gains;
+        CurrentPhysical += gains;
+    }
+
+    // Speed Increased by overcharging
+    private void GainMoreSpeed(float gains)
+    {
+        MaxSpeed += gains;
+        CurrentSpeed += gains;
     }
 }
