@@ -33,13 +33,11 @@ public class CharactersHealthBar : MonoBehaviour
         healthBar.transform.SetParent(ui.transform.transform);
         stats = gameObject.GetComponent<CombatStats>();
 
-        // Child0 will always be the Backfill(MaxTotal), Last child must be CurrentKi
-        // Physical,Speed,Energy order doesnt matter
-        childBackfillBar = healthBar.transform.GetChild(0).GetComponent<RectTransform>();
-        childPhysicalBar = healthBar.transform.GetChild(0).transform.GetChild(0).GetComponent<RectTransform>();
-        childSpeedBar = healthBar.transform.GetChild(0).transform.GetChild(1).GetComponent<RectTransform>();
-        childEnergyBar = healthBar.transform.GetChild(0).transform.GetChild(2).GetComponent<RectTransform>();
-        childKiBar = healthBar.transform.GetChild(0).transform.GetChild(3).GetComponent<RectTransform>();
+        childBackfillBar = healthBar.transform.Find("Backfill").GetComponent<RectTransform>();
+        childPhysicalBar = childBackfillBar.Find("Physical").GetComponent<RectTransform>();
+        childSpeedBar = childBackfillBar.Find("Speed").GetComponent<RectTransform>();
+        childEnergyBar = childBackfillBar.Find("Energy").GetComponent<RectTransform>();
+        childKiBar = childBackfillBar.Find("Ki").GetComponent<RectTransform>();
     }
 
     // Update is called once per frame
