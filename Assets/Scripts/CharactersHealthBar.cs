@@ -12,13 +12,16 @@ public class CharactersHealthBar : MonoBehaviour
     private Vector2 characterPositionOnCanvas;
     private GameObject healthBar;
 
-    // a Fix
+    // Used for the full width of the health bar
     private RectTransform childBackfillBar;
     // The health bar that fill for each stats
     private RectTransform childPhysicalBar;
     private RectTransform childSpeedBar;
     private RectTransform childEnergyBar;
     private RectTransform childKiBar;
+
+    private CombatStats stats;
+    private static Vector3 offsetAboveHead = new Vector3(0, 1f, 0);
 
     // Start is called before the first frame update
     void Start()
@@ -28,48 +31,43 @@ public class CharactersHealthBar : MonoBehaviour
         mainCamera = GameObject.Find("Main Camera");
         ui = GameObject.Find("UI");
         healthBar.transform.SetParent(ui.transform.transform);
+        stats = gameObject.GetComponent<CombatStats>();
 
         // Child0 will always be the Backfill(MaxTotal), Last child must be CurrentKi
         // Physical,Speed,Energy order doesnt matter
-        childBackfillBar = healthBar.transform.GetChild(0).gameObject.GetComponent<RectTransform>();
-        childPhysicalBar = healthBar.transform.GetChild(1).gameObject.GetComponent<RectTransform>();
-        childSpeedBar = healthBar.transform.GetChild(2).gameObject.GetComponent<RectTransform>();
-        childEnergyBar = healthBar.transform.GetChild(3).gameObject.GetComponent<RectTransform>();
-        childKiBar = healthBar.transform.GetChild(4).gameObject.GetComponent<RectTransform>();
+        childBackfillBar = healthBar.transform.GetChild(0).GetComponent<RectTransform>();
+        childPhysicalBar = healthBar.transform.GetChild(0).transform.GetChild(0).GetComponent<RectTransform>();
+        childSpeedBar = healthBar.transform.GetChild(0).transform.GetChild(1).GetComponent<RectTransform>();
+        childEnergyBar = healthBar.transform.GetChild(0).transform.GetChild(2).GetComponent<RectTransform>();
+        childKiBar = healthBar.transform.GetChild(0).transform.GetChild(3).GetComponent<RectTransform>();
     }
 
     // Update is called once per frame
     void LateUpdate()
     {
-        // If the Enemy is dead stop moving/showing the HealthBar
-        if (gameObject.GetComponent<EnemyStats>() != null)
+        if (stats.IsDead)
         {
-            if (gameObject.GetComponent<EnemyStats>().IsDead)
-            {
-                Destroy(healthBar);
-                return;
-            }
+            Destroy(healthBar);
+            return;
         }
 
         // Keep the HealthBar above character
-        characterPositionOnCanvas = mainCamera.GetComponent<Camera>().WorldToViewportPoint(transform.position);
-        healthBar.transform.position = new Vector3(ui.GetComponent<RectTransform>().rect.width * characterPositionOnCanvas.x, ui.GetComponent<RectTransform>().rect.height * characterPositionOnCanvas.y, 0);
-        // Update all 4 health bar
-        CombatStats stats = gameObject.GetComponent<CombatStats>();
+        healthBar.transform.position = mainCamera.GetComponent<Camera>().WorldToScreenPoint(transform.position + offsetAboveHead);
 
+        // Update all 4 health bar width
+        float positionInBackfillBar = 0;
+        float totalAndWidth = stats.MaxTotal * childBackfillBar.rect.width;
 
-        float pos = -childBackfillBar.rect.width / 2;
-        childPhysicalBar.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, stats.CurrentPhysical / stats.MaxTotal * (childBackfillBar.rect.width));
-        childPhysicalBar.anchoredPosition = new Vector3(pos + childPhysicalBar.rect.width / 2, 0, 0);
-        pos += childPhysicalBar.rect.width;
-        childSpeedBar.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, stats.CurrentSpeed / stats.MaxTotal * (childBackfillBar.rect.width));
-        childSpeedBar.anchoredPosition = new Vector3(pos + childSpeedBar.rect.width / 2, 0, 0);
-        pos += childSpeedBar.rect.width;
-        childEnergyBar.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, stats.CurrentEnergy / stats.MaxTotal * (childBackfillBar.rect.width));
-        childEnergyBar.anchoredPosition = new Vector3(pos + childEnergyBar.rect.width / 2, 0, 0);
-        pos += childEnergyBar.rect.width;
-        childKiBar.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, stats.CurrentKi / stats.MaxTotal * (childBackfillBar.rect.width));
-        childKiBar.anchoredPosition = new Vector3(pos + childKiBar.rect.width / 2, 0, 0);
-        pos += childKiBar.rect.width;
+        childPhysicalBar.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, stats.CurrentPhysical / totalAndWidth);
+        childPhysicalBar.anchoredPosition = new Vector3(positionInBackfillBar, 0, 0);
+        positionInBackfillBar += childPhysicalBar.rect.width;
+        childSpeedBar.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, stats.CurrentSpeed / totalAndWidth);
+        childSpeedBar.anchoredPosition = new Vector3(positionInBackfillBar, 0, 0);
+        positionInBackfillBar += childSpeedBar.rect.width;
+        childEnergyBar.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, stats.CurrentEnergy / totalAndWidth);
+        childEnergyBar.anchoredPosition = new Vector3(positionInBackfillBar, 0, 0);
+        positionInBackfillBar += childEnergyBar.rect.width;
+        childKiBar.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, stats.CurrentKi / totalAndWidth);
+        childKiBar.anchoredPosition = new Vector3(positionInBackfillBar, 0, 0);
     }
 }

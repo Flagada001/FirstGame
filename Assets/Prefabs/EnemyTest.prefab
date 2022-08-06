@@ -114,7 +114,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bee96d0846152844786bffeab5d6d0dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  HealthBarPrefab: {fileID: 2976735955715800176, guid: 272fb1d468a554a4c8740526df3699cf, type: 3}
+  HealthBarPrefab: {fileID: 2583319249606143200, guid: 272fb1d468a554a4c8740526df3699cf, type: 3}
 --- !u!1 &3763066081589575999
 GameObject:
   m_ObjectHideFlags: 0
