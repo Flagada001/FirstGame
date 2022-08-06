@@ -6,9 +6,6 @@ using Characters;
 
 public class EnemyStats : CombatStats
 {
-    private bool isDead = false;
-    public bool IsDead { get => isDead; set => isDead = value; }
-
     private float deadTimer;
     static float maxDeadTimer = 2;
 
@@ -47,9 +44,8 @@ public class EnemyStats : CombatStats
     public override void ApplyDamage(float damage)
     {
         base.ApplyDamage(damage);
-        if (CurrentTotal <= 0)
+        if (IsDead)
         {
-            IsDead = true;
             gameObject.GetComponent<NavMeshAgent>().enabled = false;
             gameObject.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
         }

@@ -39,15 +39,18 @@ namespace Characters
         private float currentSpeed;
         public float CurrentSpeed { get => currentSpeed; set => currentSpeed = value; }
 
-        public float CurrentTotal { get => CurrentPhysical + CurrentSpeed + CurrentEnergy + CurrentKi; }
+        public float CurrentTotal { get => currentPhysical + currentSpeed + currentEnergy + currentKi; }
+
+        private bool isDead = false;
+        public bool IsDead { get => isDead; set => isDead = value; }
 
         public virtual void ApplyDamage(float damage)
         {
             // Damage would kill the player
             if (CurrentTotal <= damage)
             {
-                // TODO: fail state
-                Debug.Log("YOU DIED");
+                IsDead = true;
+                Debug.Log(gameObject.name + " DIED");
                 currentKi = 0;
                 currentPhysical = 0;
                 currentSpeed = 0;
