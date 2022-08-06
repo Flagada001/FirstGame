@@ -32,9 +32,11 @@ public class PlayerActionController : MonoBehaviour
         }
 
         // 
-        if (Input.GetKey(KeyCode.Space))
+        if (Input.GetKey(KeyCode.Mouse1))
         {
-            characterStat.OverchargeEnergy();
+            float overcharge = characterStat.OverchargeEnergy(characterStat.MaxEnergy, characterStat.CurrentEnergy);
+            characterStat.CurrentEnergy += overcharge;
+            characterStat.GainMoreEnergy(overcharge);
         }
     }
 }

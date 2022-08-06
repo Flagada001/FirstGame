@@ -41,7 +41,7 @@ public class PlayerStats : CombatStats
     }
 
     // Energy Increased by overcharging
-    private void GainMoreEnergy(float gains)
+    public void GainMoreEnergy(float gains)
     {
         MaxEnergy += gains / 100;
         CurrentEnergy += gains / 100;
@@ -61,37 +61,35 @@ public class PlayerStats : CombatStats
         CurrentSpeed += gains;
     }
 
-    public void OverchargeEnergy()
+    public float OverchargeEnergy(float maxStat, float currentStat)
     {
-        // TODO : Limit overCharge to a ratio above MaxEnergy
-
         // TODO : Prevent other 2 Stat from droping bellow a minimum Value
-        // float minimumStats = 0.1f;
-
         // TODO : Reduce other stats to raise Energy, Ki first then other 2 Stat proportionally
-        float totalOfCurrentOthers = CurrentKi + CurrentPhysical + CurrentSpeed;
 
         // Calculate how much Stat I want to transfer By second  
         // If Energy is equal to all other stat, double value in 10 second
-        float overchargeBySecond = Time.deltaTime * totalOfCurrentOthers / CurrentEnergy / 10;
+        float overchargeBySecond = Time.deltaTime * CurrentTotal / CurrentEnergy / 10;
 
+        // Limit overCharge to a ratio above MaxEnergy
+        float maxOverchargeRatio = 2;
+        if (overchargeBySecond + currentStat > maxStat * maxOverchargeRatio)
+        {
+            overchargeBySecond = maxStat * maxOverchargeRatio - currentStat;
+        }
+
+        // Use Ki as a resource for overCharge
         if (CurrentKi > overchargeBySecond)
         {
             CurrentKi -= overchargeBySecond;
         }
         else
         {
-            float tempOvercharge = overchargeBySecond;
-            tempOvercharge -= CurrentKi;
             overchargeBySecond = CurrentKi;
             CurrentKi = 0;
         }
 
-
-        CurrentEnergy += overchargeBySecond;
-        GainMoreEnergy(overchargeBySecond);
-
-        countSecond += Time.deltaTime;
-        // Debug.Log(countSecond + " Seconds");
+        return overchargeBySecond;
+        // CurrentEnergy += overchargeBySecond;
+        // 
     }
 }
