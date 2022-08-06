@@ -6,18 +6,17 @@ using Characters;
 
 public class kiBlastProjectile : MonoBehaviour
 {
-    private float power;
+    // TODO : Better offset value for the projectile spawn
+    // TODO : Batter way to calculate speed and size modifier
 
-    private float damage;
+    public float damage;
     private float speed;
     private float size;
-    private float impactForce;
 
     private bool hasLaunched = false;
     private bool hasColided = false;
     private float despawnTimer;
     static float maxDespawnTimer = 0.01f;
-    private float chargeTimer;
 
     private CombatStats characterStats;
 
@@ -29,42 +28,16 @@ public class kiBlastProjectile : MonoBehaviour
     public void Initialize(CombatStats tempStat)
     {
         characterStats = tempStat;
-        power = characterStats.CurrentEnergy;
-        impactForce = speed * size * 100;
-        speed = power * 20;
-        size = power / 2f;
-        damage = power;
+        size = characterStats.CurrentEnergy / 2;
+        damage = characterStats.CurrentEnergy;
+        speed = characterStats.CurrentEnergy * 20;
         transform.localScale = new Vector3(size, size, size);
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (hasLaunched)
-        {
-            transform.Translate(Vector3.forward * Time.deltaTime * speed);
-        }
-        else
-        {
-            transform.rotation = characterStats.gameObject.transform.rotation;
-            transform.position = characterStats.gameObject.transform.position;
-            transform.Translate(new Vector3(0.2f, 0, 0.7f));
-            chargeTimer += Time.deltaTime;
-
-
-            if (power * (chargeTimer + 1) / 2f > 1)
-            {
-                size = 1;
-            }
-            else
-            {
-                size = power * (chargeTimer + 1) / 2f;
-            }
-
-            speed = power * (chargeTimer + 1) * 20;
-            damage = power * (chargeTimer + 1);
-            transform.localScale = new Vector3(size, size, size);
-        }
+        // Once colided the object take a moment to despawn
         if (hasColided)
         {
             despawnTimer += Time.deltaTime;
@@ -72,9 +45,24 @@ public class kiBlastProjectile : MonoBehaviour
             {
                 Destroy(gameObject);
             }
+            return;
         }
+
+        if (hasLaunched)
+        {
+            transform.Translate(Vector3.forward * Time.deltaTime * speed);
+            return;
+        }
+
+        size = characterStats.CurrentEnergy / 2;
+        transform.localScale = new Vector3(size, size, size);
+
+        transform.rotation = characterStats.gameObject.transform.rotation;
+        transform.position = characterStats.gameObject.transform.position;
+        transform.Translate(new Vector3(0.2f, 0, 0.7f));
     }
 
+    //
     void OnCollisionEnter(Collision col)
     {
         if (hasColided) { return; }
@@ -84,14 +72,11 @@ public class kiBlastProjectile : MonoBehaviour
         col.gameObject.SendMessage("ApplyDamage", damage, SendMessageOptions.DontRequireReceiver);
     }
 
-    private void setCharacterEnergyValue(float val)
-    {
-        power = val;
-    }
-
     public void launchProjectile(Vector3 target)
     {
         transform.rotation = Quaternion.LookRotation(target - transform.position);
         hasLaunched = true;
+        damage = characterStats.CurrentEnergy;
+        speed = characterStats.CurrentEnergy * 20;
     }
 }
