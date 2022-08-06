@@ -56,18 +56,18 @@ public class CharactersHealthBar : MonoBehaviour
 
         // Update all 4 health bar width
         float positionInBackfillBar = 0;
-        float totalAndWidth = stats.MaxTotal * childBackfillBar.rect.width;
+        float totalScaledToWidth = childBackfillBar.rect.width / stats.MaxTotal;
 
-        childPhysicalBar.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, stats.CurrentPhysical / totalAndWidth);
+        childPhysicalBar.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, stats.CurrentPhysical * totalScaledToWidth);
         childPhysicalBar.anchoredPosition = new Vector3(positionInBackfillBar, 0, 0);
         positionInBackfillBar += childPhysicalBar.rect.width;
-        childSpeedBar.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, stats.CurrentSpeed / totalAndWidth);
+        childSpeedBar.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, stats.CurrentSpeed * totalScaledToWidth);
         childSpeedBar.anchoredPosition = new Vector3(positionInBackfillBar, 0, 0);
         positionInBackfillBar += childSpeedBar.rect.width;
-        childEnergyBar.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, stats.CurrentEnergy / totalAndWidth);
+        childEnergyBar.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, stats.CurrentEnergy * totalScaledToWidth);
         childEnergyBar.anchoredPosition = new Vector3(positionInBackfillBar, 0, 0);
         positionInBackfillBar += childEnergyBar.rect.width;
-        childKiBar.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, stats.CurrentKi / totalAndWidth);
+        childKiBar.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, stats.CurrentKi * totalScaledToWidth);
         childKiBar.anchoredPosition = new Vector3(positionInBackfillBar, 0, 0);
     }
 }
