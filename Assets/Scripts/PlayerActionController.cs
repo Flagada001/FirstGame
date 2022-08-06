@@ -18,17 +18,23 @@ public class PlayerActionController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Time.timeScale == 0) { return; }
-
+        // TODO : be able to select the right mouse button skill in game
+        // Spawn a Ki Blast Projectile in Hand on Right mouse
         if (Input.GetKeyDown(KeyCode.Mouse1))
         {
             actionManager.KiBlastPressed();
         }
 
+        // Throw Ki Blast Projectile in Hand when releasing the Right Mouse
         if (Input.GetKeyUp(KeyCode.Mouse1))
         {
             actionManager.KiBlastReleased();
         }
 
+        // 
+        if (Input.GetKey(KeyCode.Space))
+        {
+            characterStat.OverchargeEnergy();
+        }
     }
 }

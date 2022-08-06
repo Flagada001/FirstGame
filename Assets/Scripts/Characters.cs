@@ -43,27 +43,29 @@ namespace Characters
 
         public virtual void ApplyDamage(float damage)
         {
-            // CurrentKi Take damage first as SpareHP
-            damage -= currentKi;
-            if (damage < 0)
-            {
-                currentKi = -damage;
-                return;
-            }
-            currentKi = 0;
-
             // Damage would kill the player
             if (CurrentTotal <= damage)
             {
                 // TODO: fail state
+                Debug.Log("YOU DIED");
+                currentKi = 0;
                 currentPhysical = 0;
                 currentSpeed = 0;
                 currentEnergy = 0;
                 return;
             }
 
+            // CurrentKi Take damage first, verify if overflow is needed
+            if (currentKi > damage)
+            {
+                currentKi -= damage;
+                return;
+            }
+            damage -= currentKi;
+            currentKi = 0;
+
             // Split damage between all stats by their ratio
-            float initialCurrentTotalValue = CurrentTotal;
+            float initialCurrentTotalValue = CurrentTotal - currentKi;
             currentPhysical -= (damage * currentPhysical / initialCurrentTotalValue);
             currentSpeed -= (damage * currentSpeed / initialCurrentTotalValue);
             currentEnergy -= (damage * currentEnergy / initialCurrentTotalValue);
@@ -71,37 +73,46 @@ namespace Characters
 
         public virtual void ApplyHealing(float healing)
         {
+            float remainingHealing = 0;
+
+            // Nothing happens if full hp
             if (CurrentTotal >= MaxTotal) { return; }
 
-            float missingPhysical = MaxPhysical - CurrentPhysical;
-            float missingEnergy = MaxEnergy - CurrentEnergy;
-            float missingSpeed = MaxSpeed - CurrentSpeed;
+            // Calculate how much of each stat is missing, ignore if over max
+            float missingPhysical = maxPhysical - currentPhysical;
+            float missingEnergy = maxEnergy - currentEnergy;
+            float missingSpeed = maxSpeed - currentSpeed;
+            if (missingPhysical < 0) { missingPhysical = 0; }
+            if (missingEnergy < 0) { missingEnergy = 0; }
+            if (missingSpeed < 0) { missingSpeed = 0; }
+
+            // Allow overflow healing from primary stats to currentKi
             float missingTotalExcludingKi = missingPhysical + missingEnergy + missingSpeed;
-
-            float remainingHealing = healing - missingTotalExcludingKi;
-            if (remainingHealing >= 0)
+            if (missingTotalExcludingKi < healing)
             {
-                healing = missingTotalExcludingKi;
-            }
-            else
-            {
-                remainingHealing = 0;
+                remainingHealing = healing - (missingTotalExcludingKi);
+                healing = (missingTotalExcludingKi);
             }
 
+            // Apply healing to ratio of missing primary stat 
             if (missingTotalExcludingKi > 0)
             {
-                CurrentPhysical += healing * missingPhysical / missingTotalExcludingKi;
-                CurrentSpeed += healing * missingSpeed / missingTotalExcludingKi;
-                CurrentEnergy += healing * missingEnergy / missingTotalExcludingKi;
-            }
+                currentPhysical += healing * missingPhysical / missingTotalExcludingKi;
+                currentSpeed += healing * missingSpeed / missingTotalExcludingKi;
+                currentEnergy += healing * missingEnergy / missingTotalExcludingKi;
 
-            if (CurrentKi + remainingHealing > MaxKi)
+            }
+            if (remainingHealing == 0) { return; }
+
+            // Calculate healing to Ki, make sure Ki does not bring CurrentTotal over MaxTotal
+            float missingKi = MaxTotal - (currentPhysical + currentSpeed + currentEnergy);
+            if (missingKi > remainingHealing)
             {
-                CurrentKi = MaxKi;
+                currentKi += remainingHealing;
             }
             else
             {
-                CurrentKi += remainingHealing;
+                currentKi = missingKi;
             }
         }
 

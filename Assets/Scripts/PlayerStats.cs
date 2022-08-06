@@ -22,8 +22,7 @@ public class PlayerStats : CombatStats
 
     void Update()
     {
-        countSecond += Time.deltaTime;
-        if (countSecond > 1) { countSecond = 0; ApplyHealing(0.2f); }
+        ApplyHealing(0.2f * Time.deltaTime);
     }
 
     public override void ApplyHealing(float healing)
@@ -31,6 +30,7 @@ public class PlayerStats : CombatStats
         float initalCurrentTotal = CurrentTotal;
         base.ApplyHealing(healing);
         GainMoreKi(CurrentTotal - initalCurrentTotal);
+        // Debug.Log("Healed" + (CurrentTotal - initalCurrentTotal));
     }
 
     // Ki increase by healing at a rate of 1 new Ki for 100 ki Healed
@@ -43,8 +43,8 @@ public class PlayerStats : CombatStats
     // Energy Increased by overcharging
     private void GainMoreEnergy(float gains)
     {
-        MaxEnergy += gains;
-        CurrentEnergy += gains;
+        MaxEnergy += gains / 100;
+        CurrentEnergy += gains / 100;
     }
 
     // Physical Increased by overcharging
@@ -59,5 +59,39 @@ public class PlayerStats : CombatStats
     {
         MaxSpeed += gains;
         CurrentSpeed += gains;
+    }
+
+    public void OverchargeEnergy()
+    {
+        // TODO : Limit overCharge to a ratio above MaxEnergy
+
+        // TODO : Prevent other 2 Stat from droping bellow a minimum Value
+        // float minimumStats = 0.1f;
+
+        // TODO : Reduce other stats to raise Energy, Ki first then other 2 Stat proportionally
+        float totalOfCurrentOthers = CurrentKi + CurrentPhysical + CurrentSpeed;
+
+        // Calculate how much Stat I want to transfer By second  
+        // If Energy is equal to all other stat, double value in 10 second
+        float overchargeBySecond = Time.deltaTime * totalOfCurrentOthers / CurrentEnergy / 10;
+
+        if (CurrentKi > overchargeBySecond)
+        {
+            CurrentKi -= overchargeBySecond;
+        }
+        else
+        {
+            float tempOvercharge = overchargeBySecond;
+            tempOvercharge -= CurrentKi;
+            overchargeBySecond = CurrentKi;
+            CurrentKi = 0;
+        }
+
+
+        CurrentEnergy += overchargeBySecond;
+        GainMoreEnergy(overchargeBySecond);
+
+        countSecond += Time.deltaTime;
+        // Debug.Log(countSecond + " Seconds");
     }
 }
