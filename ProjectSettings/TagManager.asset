@@ -7,6 +7,7 @@ TagManager:
   - Wall
   - Enemy
   - WeakPoint
+  - KiProjectile
   layers:
   - Default
   - TransparentFX

@@ -16,9 +16,12 @@ public class MainControls : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (GameObject.Find("GameStartMenu") != null) { return; }
+
         //Open the stats interface
         if (Input.GetKeyDown(KeyCode.Tab))
         {
+
             if (statTab.activeSelf)
             {
                 statTab.SetActive(false);
