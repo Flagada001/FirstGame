@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.AI;
 using Characters;
 
-public class kiBlastProjectile : MonoBehaviour
+public class KiBlastProjectile : MonoBehaviour
 {
     // TODO : Better offset value for the projectile spawn
     // TODO : Batter way to calculate speed and size modifier
