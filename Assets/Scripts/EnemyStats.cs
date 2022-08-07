@@ -13,10 +13,10 @@ public class EnemyStats : CombatStats
     // Start is called before the first frame update
     void Start()
     {
-        MaxKi = 0;
+        MaxKi = Time.timeSinceLevelLoad / 60;
         MaxPhysical = 0;
-        MaxSpeed = 1;
-        MaxEnergy = 1;
+        MaxSpeed = 1 + Time.timeSinceLevelLoad / 60;
+        MaxEnergy = 1 + Time.timeSinceLevelLoad / 60;
         CurrentKi = MaxKi;
         CurrentPhysical = MaxPhysical;
         CurrentSpeed = MaxSpeed;
