@@ -113,12 +113,10 @@ public class PlayerStats : CombatStats
         // apply remaining overchargeBySecond to a ratio
         float minCurrentPhysical = CurrentPhysical - 0.1f;
         if (minCurrentPhysical < 0) { minCurrentPhysical = 0; }
-        // Debug.Log("Phys : " + minCurrentPhysical);
         float minCurrentSpeed = CurrentSpeed - 0.1f;
         if (minCurrentSpeed < 0) { minCurrentSpeed = 0; }
         float currentPhysicalSpeed = minCurrentPhysical + minCurrentSpeed;
         if (currentPhysicalSpeed == 0) { return overchargeBySecond - remainingOverchargeBySecond; };
-        Debug.Log("Speed : " + minCurrentPhysical + "; Overchagre " + remainingOverchargeBySecond);
 
 
         CurrentPhysical -= remainingOverchargeBySecond * minCurrentPhysical / currentPhysicalSpeed;

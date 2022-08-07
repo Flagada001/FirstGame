@@ -10,8 +10,11 @@ public class KiBlastProjectile : MonoBehaviour
     // TODO : Batter way to calculate speed and size modifier
 
     private float damage;
+    public float Damage { get => damage; set => damage = value; }
+
     private float speed;
     private float size;
+    private Vector3 alphaSize { get => new Vector3(size, size, size); }
 
     private bool hasLaunched = false;
     private bool hasColided = false;
@@ -19,6 +22,10 @@ public class KiBlastProjectile : MonoBehaviour
     static float maxDespawnTimer = 0.01f;
 
     private CombatStats characterStats;
+    public CombatStats CharacterStats { get => characterStats; }
+
+
+
 
     // Start is called before the first frame update
     void Start()
@@ -31,7 +38,7 @@ public class KiBlastProjectile : MonoBehaviour
         size = characterStats.CurrentEnergy / 2;
         damage = characterStats.CurrentEnergy;
         speed = characterStats.CurrentEnergy * 20;
-        transform.localScale = new Vector3(size, size, size);
+        transform.localScale = alphaSize;
     }
 
     // Update is called once per frame
@@ -53,9 +60,7 @@ public class KiBlastProjectile : MonoBehaviour
             transform.Translate(Vector3.forward * Time.deltaTime * speed);
             return;
         }
-
-        size = characterStats.CurrentEnergy / 2;
-        transform.localScale = new Vector3(size, size, size);
+        transform.localScale = alphaSize;
 
         transform.rotation = characterStats.gameObject.transform.rotation;
         transform.position = characterStats.gameObject.transform.position;
@@ -67,9 +72,22 @@ public class KiBlastProjectile : MonoBehaviour
     {
         if (hasColided) { return; }
         if (col.gameObject.name == characterStats.gameObject.name) { return; }
-        hasColided = true;
-        Debug.Log(col.gameObject.name + " Took damage :" + damage);
-        col.gameObject.SendMessage("ApplyDamage", damage, SendMessageOptions.DontRequireReceiver);
+        if (col.gameObject.tag == "KiProjectile")
+        {
+            float tempDamage = damage;
+            tempDamage -= col.gameObject.GetComponent<KiBlastProjectile>().Damage;
+            damage = tempDamage;
+            size = damage / 2;
+            if (tempDamage <= 0)
+            {
+                Destroy(gameObject);
+            }
+        }
+        else
+        {
+            hasColided = true;
+            col.gameObject.SendMessage("ApplyDamage", damage, SendMessageOptions.DontRequireReceiver);
+        }
     }
 
     public void launchProjectile(Vector3 target)
@@ -78,5 +96,6 @@ public class KiBlastProjectile : MonoBehaviour
         hasLaunched = true;
         damage = characterStats.CurrentEnergy;
         speed = characterStats.CurrentEnergy * 20;
+        size = characterStats.CurrentEnergy / 2;
     }
 }
