@@ -91,7 +91,9 @@ namespace Characters
 
             // Allow overflow healing from primary stats to currentKi
             float missingTotalExcludingKi = missingPhysical + missingEnergy + missingSpeed;
-            if (missingTotalExcludingKi < healing)
+            if (missingTotalExcludingKi + currentKi < healing) { healing = missingTotalExcludingKi + currentKi; }
+
+            if (missingTotalExcludingKi <= healing)
             {
                 remainingHealing = healing - (missingTotalExcludingKi);
                 healing = (missingTotalExcludingKi);
