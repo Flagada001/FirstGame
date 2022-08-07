@@ -11,6 +11,7 @@ public class KiBlastProjectile : MonoBehaviour
 
     private float damage;
     public float Damage { get => damage; set => damage = value; }
+    private float tempDamage;
 
     private float speed;
     private float size;
@@ -74,10 +75,11 @@ public class KiBlastProjectile : MonoBehaviour
         if (col.gameObject.name == characterStats.gameObject.name) { return; }
         if (col.gameObject.tag == "KiProjectile")
         {
-            float tempDamage = damage;
+            Debug.Log(characterStats.gameObject.name + " projectile damage " + damage);
             tempDamage -= col.gameObject.GetComponent<KiBlastProjectile>().Damage;
-            damage = tempDamage;
-            size = damage / 2;
+            size = tempDamage / 2;
+            transform.localScale = alphaSize;
+            Debug.Log(characterStats.gameObject.name + " projectile diminished damage " + tempDamage);
             if (tempDamage <= 0)
             {
                 Destroy(gameObject);
@@ -86,7 +88,8 @@ public class KiBlastProjectile : MonoBehaviour
         else
         {
             hasColided = true;
-            col.gameObject.SendMessage("ApplyDamage", damage, SendMessageOptions.DontRequireReceiver);
+            Debug.Log(col.gameObject.name + " received " + tempDamage);
+            col.gameObject.SendMessage("ApplyDamage", tempDamage, SendMessageOptions.DontRequireReceiver);
         }
     }
 
@@ -97,5 +100,6 @@ public class KiBlastProjectile : MonoBehaviour
         damage = characterStats.CurrentEnergy;
         speed = characterStats.CurrentEnergy * 20;
         size = characterStats.CurrentEnergy / 2;
+        tempDamage = damage;
     }
 }
