@@ -118,10 +118,5 @@ namespace Characters
                 currentKi = missingKi;
             }
         }
-
-        public void RebalanceStats()
-        {
-            // TODO : Return all 3 stats to the same ratio over time
-        }
     }
 }

@@ -9,7 +9,7 @@ public class KiBlastProjectile : MonoBehaviour
     // TODO : Better offset value for the projectile spawn
     // TODO : Batter way to calculate speed and size modifier
 
-    public float damage;
+    private float damage;
     private float speed;
     private float size;
 

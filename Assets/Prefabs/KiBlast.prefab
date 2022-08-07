@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 6601255558125249002}
   - component: {fileID: 8681597653234798033}
   - component: {fileID: 3620412130719912378}
-  - component: {fileID: 1229859946665775788}
+  - component: {fileID: 7260612679295778639}
   m_Layer: 0
   m_Name: KiBlast
   m_TagString: Untagged
@@ -115,7 +115,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 126
   m_CollisionDetection: 0
---- !u!114 &1229859946665775788
+--- !u!114 &7260612679295778639
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

@@ -30,7 +30,7 @@ public class PlayerActionManager : MonoBehaviour
     public void KiBlastPressed()
     {
         kiBlast = Instantiate(KiBlastPrefab, transform.position, transform.rotation);
-        kiBlast.gameObject.GetComponent<kiBlastProjectile>().Initialize(characterStat);
+        kiBlast.gameObject.GetComponent<KiBlastProjectile>().Initialize(characterStat);
     }
 
     public void KiBlastReleased()
@@ -53,6 +53,6 @@ public class PlayerActionManager : MonoBehaviour
                 yAimOffset = transform.position.y - myNavHit.position.y;
             }
         }
-        kiBlast.gameObject.GetComponent<kiBlastProjectile>().launchProjectile(hit.point + new Vector3(0, yAimOffset, 0));
+        kiBlast.gameObject.GetComponent<KiBlastProjectile>().launchProjectile(hit.point + new Vector3(0, yAimOffset, 0));
     }
 }
