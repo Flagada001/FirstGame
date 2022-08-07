@@ -5,8 +5,8 @@ using UnityEngine;
 public class PlayerMovementController : MonoBehaviour
 {
     //dependent on character Stats Speed
-    public float MoveSpeed { get { return characterStat.CurrentSpeed * 10 + 2; } }
-    public float RotateSpeed { get { return characterStat.CurrentSpeed + 10; } }
+    public float MoveSpeed { get { return characterStat.CurrentSpeed * 15 + 1; } }
+    public float RotateSpeed { get { return characterStat.CurrentSpeed * 2 + 5; } }
 
     private PlayerStats characterStat;
 

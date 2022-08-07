@@ -54,5 +54,6 @@ public class PlayerActionManager : MonoBehaviour
             }
         }
         kiBlast.gameObject.GetComponent<KiBlastProjectile>().launchProjectile(hit.point + new Vector3(0, yAimOffset, 0));
+        characterStat.CurrentEnergy *= 0.90f;
     }
 }

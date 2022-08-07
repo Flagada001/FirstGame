@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 using UnityEngine;
 using Characters;
 
@@ -12,7 +13,7 @@ public class PlayerStats : CombatStats
     void Start()
     {
         MaxKi = 0;
-        MaxPhysical = 1;
+        MaxPhysical = 0;
         MaxSpeed = 1;
         MaxEnergy = 1;
         CurrentKi = MaxKi;
@@ -24,6 +25,7 @@ public class PlayerStats : CombatStats
     void Update()
     {
         ApplyHealing(0.2f * Time.deltaTime);
+        if (IsDead) { SceneManager.LoadScene(SceneManager.GetActiveScene().name); }
     }
 
     public override void ApplyHealing(float healing)
