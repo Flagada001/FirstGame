@@ -8,6 +8,8 @@ public class StartGame : MonoBehaviour
     void Start()
     {
         Time.timeScale = 0;
+        GameObject.Find("ScoreText").GetComponent<TMPro.TextMeshProUGUI>().text = string.Format("Previous Score : {0:f0}", PlayerPrefs.GetFloat("Score"));
+        GameObject.Find("BestScoreText").GetComponent<TMPro.TextMeshProUGUI>().text = string.Format("Best Score : {0:f0}", PlayerPrefs.GetFloat("BestScore"));
     }
 
     // Update is called once per frame
@@ -20,5 +22,10 @@ public class StartGame : MonoBehaviour
     {
         gameObject.SetActive(false);
         Time.timeScale = 1;
+    }
+
+    public void QuitGame()
+    {
+        Application.Quit();
     }
 }

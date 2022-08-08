@@ -48,6 +48,7 @@ public class EnemyStats : CombatStats
         {
             gameObject.GetComponent<NavMeshAgent>().enabled = false;
             gameObject.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
+            GameObject.Find("Character").GetComponent<PlayerStats>().Score += MaxTotal;
         }
     }
 }

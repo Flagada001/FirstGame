@@ -6,8 +6,8 @@ using Characters;
 
 public class PlayerStats : CombatStats
 {
-    private float countSecond = 0;
-    private float gainModifier = 10;
+    private float statImproveRatio = 10;
+    public float Score;
 
     // Start is called before the first frame update
     void Start()
@@ -25,7 +25,12 @@ public class PlayerStats : CombatStats
     void Update()
     {
         ApplyHealing(0.2f * Time.deltaTime);
-        if (IsDead) { SceneManager.LoadScene(SceneManager.GetActiveScene().name); }
+        if (IsDead)
+        {
+            if (PlayerPrefs.GetFloat("BestScore") < Score) { PlayerPrefs.SetFloat("BestScore", Score); }
+            PlayerPrefs.SetFloat("Score", Score);
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        }
     }
 
     public override void ApplyHealing(float healing)
@@ -41,8 +46,8 @@ public class PlayerStats : CombatStats
     private void GainMoreKi(float gains)
     {
 
-        MaxKi += gains / gainModifier;
-        CurrentKi += gains / gainModifier;
+        MaxKi += gains / statImproveRatio;
+        CurrentKi += gains / statImproveRatio;
 
     }
 
@@ -53,9 +58,9 @@ public class PlayerStats : CombatStats
         {
             gains = MaxKi;
         }
-        MaxEnergy += gains / gainModifier;
-        CurrentEnergy += gains / gainModifier;
-        MaxKi -= gains / gainModifier;
+        MaxEnergy += gains / statImproveRatio;
+        CurrentEnergy += gains / statImproveRatio;
+        MaxKi -= gains / statImproveRatio;
         if (CurrentKi > MaxKi) { CurrentKi = MaxKi; }
     }
 
@@ -66,9 +71,9 @@ public class PlayerStats : CombatStats
         {
             gains = MaxKi;
         }
-        MaxPhysical += gains / gainModifier;
-        CurrentPhysical += gains / gainModifier;
-        MaxKi -= gains / gainModifier;
+        MaxPhysical += gains / statImproveRatio;
+        CurrentPhysical += gains / statImproveRatio;
+        MaxKi -= gains / statImproveRatio;
         if (CurrentKi > MaxKi) { CurrentKi = MaxKi; }
     }
 
@@ -79,9 +84,9 @@ public class PlayerStats : CombatStats
         {
             gains = MaxKi;
         }
-        MaxSpeed += gains / gainModifier;
-        CurrentSpeed += gains / gainModifier;
-        MaxKi -= gains / gainModifier;
+        MaxSpeed += gains / statImproveRatio;
+        CurrentSpeed += gains / statImproveRatio;
+        MaxKi -= gains / statImproveRatio;
         if (CurrentKi > MaxKi) { CurrentKi = MaxKi; }
     }
 

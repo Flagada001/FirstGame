@@ -10,12 +10,14 @@ public class MainControls : MonoBehaviour
 
     void Start()
     {
-        characterStat = (PlayerStats)gameObject.GetComponent(typeof(PlayerStats));
+        characterStat = gameObject.GetComponent<PlayerStats>();
     }
 
     // Update is called once per frame
     void Update()
     {
+        GameObject.Find("CurrentScoreText").GetComponent<TMPro.TextMeshProUGUI>().text = string.Format("Score : {0:f0}", characterStat.Score);
+
         if (GameObject.Find("GameStartMenu") != null) { return; }
 
         //Open the stats interface
@@ -32,6 +34,11 @@ public class MainControls : MonoBehaviour
                 statTab.SetActive(true);
                 Time.timeScale = 0;
             }
+        }
+
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            characterStat.IsDead = true;
         }
 
 
