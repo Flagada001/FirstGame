@@ -1,0 +1,19 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <ui:VisualElement name="MainMenuVE" style="flex-direction: row; display: flex; background-color: rgb(0, 0, 0);">
+        <ui:VisualElement style="flex-wrap: nowrap; flex-direction: column; height: 1076px; width: 775px; flex-basis: 33%;" />
+        <ui:VisualElement name="MiddleColumn" style="height: 1086px; width: 1041px; flex-basis: 33%; padding-top: 0; padding-left: 0; padding-right: 0; padding-bottom: 0;">
+            <ui:VisualElement style="height: 264px; width: 630px; flex-basis: 33%;" />
+            <ui:VisualElement style="flex-basis: 33%;">
+                <ui:Button text="QuitButton" display-tooltip-when-elided="true" name="QuitButton" class="ButtonStyle" style="padding-left: 2px; padding-right: 2px; padding-top: 5px; padding-bottom: 5px; margin-left: 20px; margin-right: 20px; margin-top: 20px; margin-bottom: 20px; font-size: 30px; height: 51px;" />
+                <ui:Button text="StartButton" display-tooltip-when-elided="true" name="StartButton" class="ButtonStyle" style="margin-left: 20px; margin-right: 20px; margin-top: 20px; margin-bottom: 20px; padding-top: 5px; padding-bottom: 5px; font-size: 30px;" />
+            </ui:VisualElement>
+            <ui:VisualElement style="flex-basis: 33%;">
+                <ui:Label text="Current Score :" display-tooltip-when-elided="true" name="CurrentScore" style="font-size: 30px; justify-content: flex-start; -unity-text-align: upper-center; margin-left: 0; margin-right: 0; margin-top: 0; margin-bottom: 0; padding-left: 10px; padding-right: 10px; padding-top: 10px; padding-bottom: 10px; color: rgba(255, 255, 255, 255);" />
+                <ui:Label text="Best Score : " display-tooltip-when-elided="true" name="BestScore" style="font-size: 30px; -unity-text-align: upper-center; padding-left: 10px; padding-right: 10px; padding-top: 10px; padding-bottom: 10px; color: rgba(255, 255, 255, 255);" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+        <ui:VisualElement style="height: 1086px; width: 1041px; flex-basis: 33%; align-items: center; justify-content: center;">
+            <ui:Label text="Controls&#10;Right Click : Throw Ki Blast&#10;Shift : Move faster but get weaker&#10;Space : Stronger Ki blast but get slower&#10;&#10;Tab : Open Stat Menu and pause game&#10;Escape : suicide" display-tooltip-when-elided="true" style="-unity-text-align: middle-left; font-size: 30px; color: rgba(255, 255, 255, 255);" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>
